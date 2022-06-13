@@ -2,17 +2,10 @@ name: CI
 on:
   pull_request:
   push:
-    tags:
-      - 'v*'
-    paths-ignore:
-      - '**/CHANGELOG.md'
-      - '**/package.json'
-      - '**/package-lock.json'
-      - '**/Cargo.toml'
-      - '**/Cargo.lock'
     branches:
       - main
       - develop
+      - rc/next
   workflow_dispatch:
 
 jobs:
@@ -399,7 +392,10 @@ jobs:
   build:
     name: Docker build
     runs-on: ubuntu-latest
-    needs: pre_run
+    needs:
+      - audit
+      - dist
+      - test
     outputs:
       version: ${{ steps.docker_meta.outputs.version }}
     steps:
@@ -425,6 +421,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Download pre-built dist
+        uses: actions/download-artifact@v3
+        with:
+          name: clarinet-linux-x64-glibc
+
+      - name: Unzip & untar pre-built dist
+        run: |
+          unzip *.zip
+          tar zxvf *.tar
 
       - name: Build/Tag/Push Image
         uses: docker/build-push-action@v2
@@ -452,32 +458,3 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           event-type: released
           client-payload: '{"tag": "${{ env.GITHUB_REF_SHORT }}"}'
-
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    if: contains(github.ref, 'main')
-    needs:
-      - audit
-      - dist
-      - test
-      - build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          # Necessary for Semantic Release
-          token: ${{ secrets.GH_TOKEN }}
-          submodules: recursive
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          SEMANTIC_RELEASE_PACKAGE: ${{ github.event.repository.name }}
-        with:
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/exec
-            @semantic-release/git
