@@ -24,7 +24,7 @@ jobs:
     needs: pre_run
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
@@ -60,7 +60,7 @@ jobs:
     needs: pre_run
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
@@ -162,7 +162,7 @@ jobs:
           git config --global core.eol lf
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
@@ -179,7 +179,7 @@ jobs:
         if: matrix.target != 'x86_64-unknown-linux-musl'
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
           # Host nodejs arch does not matter in our usecase for compiling cross-platform npm packages,
           # if enabled, this will fail after installing an arm64 nodejs runtime for an x86_64 arch macos system
           # architecture: ${{ matrix.architecture }}
@@ -400,13 +400,13 @@ jobs:
       version: ${{ steps.docker_meta.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
       - name: Docker meta
         id: docker_meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ github.repository }}
           tags: |
@@ -416,7 +416,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Login to Dockerhub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -431,9 +431,11 @@ jobs:
         run: tar zxvf *.tar.gz && ls -R
 
       - name: Build/Tag/Push Image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          context: .
+          push: true
+          # push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
