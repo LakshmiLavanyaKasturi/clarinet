@@ -428,7 +428,7 @@ jobs:
           name: clarinet-linux-x64-glibc
 
       - name: Untar pre-built dist
-        run: ls -R
+        run: tar zxvf *.tar.gz && ls -R
 
       - name: Build/Tag/Push Image
         uses: docker/build-push-action@v2
