@@ -136,23 +136,23 @@ jobs:
             target: x86_64-unknown-linux-gnu
             architecture: x64
             libc: glibc
-          # - os: ubuntu-latest
-          #   platform: linux
-          #   target: x86_64-unknown-linux-musl
-          #   architecture: x64
-          #   libc: musl
-          # - os: windows-latest
-          #   platform: windows
-          #   target: x86_64-pc-windows-msvc
-          #   architecture: x64
-          # - os: macos-latest
-          #   platform: darwin
-          #   target: x86_64-apple-darwin
-          #   architecture: x64
-          # - os: macos-latest
-          #   platform: darwin
-          #   target: aarch64-apple-darwin
-          #   architecture: arm64
+          - os: ubuntu-latest
+            platform: linux
+            target: x86_64-unknown-linux-musl
+            architecture: x64
+            libc: musl
+          - os: windows-latest
+            platform: windows
+            target: x86_64-pc-windows-msvc
+            architecture: x64
+          - os: macos-latest
+            platform: darwin
+            target: x86_64-apple-darwin
+            architecture: x64
+          - os: macos-latest
+            platform: darwin
+            target: aarch64-apple-darwin
+            architecture: arm64
 
     steps:
       - name: Configure git to use LF (Windows)
@@ -417,7 +417,7 @@ jobs:
 
       - name: Login to Dockerhub
         uses: docker/login-action@v2
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -434,8 +434,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: true
-          # push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
