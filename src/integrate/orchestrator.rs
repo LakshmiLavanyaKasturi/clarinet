@@ -1154,7 +1154,8 @@ miner = true
 seed = "{hyperchain_leader_secret_key_hex}"
 mining_key = "{hyperchain_leader_secret_key_hex}"
 local_peer_seed = "{hyperchain_leader_secret_key_hex}"
-wait_time_for_microblocks = 50_000
+wait_time_for_microblocks = 3_000
+wait_before_first_anchored_block = 5_000
 
 [miner]
 first_attempt_time_ms = 10000
@@ -1186,7 +1187,7 @@ observer_port = {hyperchain_events_ingestion_port}
             orchestrator_port = devnet_config.orchestrator_ingestion_port,
             hyperchain_events_ingestion_port = devnet_config.hyperchain_events_ingestion_port,
             first_burn_header_height = 0,
-            hyperchain_contract_id = devnet_config.hyperchain_contract_id,
+            hyperchain_contract_id = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.hc" //devnet_config.hyperchain_contract_id,
         );
 
         hyperchain_conf.push_str(&format!(

@@ -2,31 +2,36 @@
 id: 0
 name: Devnet deployment
 network: devnet
-node: "http://localhost:20443"
+stacks-node: "http://localhost:20443"
+bitcoin-node: "http://devnet:devnet@localhost:18443"
 plan:
   batches:
     - id: 0
       transactions:
         - requirement-publish:
-            contract-id: STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.ft-trait-standard
+            contract-id: ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.nft-trait-standard
             remap-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            remap-principals: {}
-            path: "./.requirements/STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.ft-trait-standard.clar"
-            cost: 8340
-        - requirement-publish:
-            contract-id: STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.nft-trait-standard
-            remap-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            remap-principals: {}
-            path: "./.requirements/STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.nft-trait-standard.clar"
+            remap-principals:
+              ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             cost: 4670
+            path: "./.requirements/ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.nft-trait-standard.clar"
         - requirement-publish:
-            contract-id: STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.hc-alpha
+            contract-id: ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.ft-trait-standard
             remap-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            remap-principals: { STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM }
-            path: "./.requirements/STFTX3F4XCY7RS5VRHXP2SED0WC0YRKNWTNXD74P.hc-alpha.clar"
-            cost: 95010
+            remap-principals:
+              ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            cost: 8340
+            path: "./.requirements/ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.ft-trait-standard.clar"
+        - requirement-publish:
+            contract-id: ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.hc
+            remap-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            remap-principals:
+              ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+              ST18F1AHKW194BWQ3CEFDPWVRARA79RBGFEWSDQR8: ST3NBRSFKX28FQ2ZJ1MAKX58HKHSDGNV5N7R21XCP
+            cost: 184190
+            path: "./.requirements/ST3A7S7GFKR8E3TVZ41Z2N441265CKXS0QPZ94N6B.hc.clar"
         - contract-publish:
             contract-name: counter
             expected-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/counter.clar
             cost: 5960
+            path: contracts/counter.clar
