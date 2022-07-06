@@ -3,7 +3,6 @@ use std::panic;
 use crate::backend::{self, LspRequest, LspResponse};
 use crate::state::EditorState;
 use crate::utils;
-use crate::utils::spsc::{channel, Receiver, Sender};
 use async_trait::*;
 use clarinet_files::{FileAccessor, FileLocation, PerformFileAccess};
 use js_sys::Function as JsFunction;
@@ -126,9 +125,11 @@ pub async fn notification_handler(bridge: LspVscodeBridge, method: String, param
                             return bridge
                         }
                     };
-                    return bridge;
+
+                    bridge.client_diagnostic_tx.call1(&JsValue::null(), &value).unwrap();
                 }
             }
+            return bridge;
 
 
             // TODO: display eventual notifications coming from the backend

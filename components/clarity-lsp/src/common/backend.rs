@@ -3,8 +3,10 @@ use crate::state::{build_state, EditorState, ProtocolState};
 use crate::types::{CompletionItem, CompletionItemKind};
 use clarinet_files::{FileAccessor, FileLocation};
 use clarity_repl::clarity::diagnostic::Diagnostic;
+use lsp_types::Url;
 use serde::{Deserialize, Serialize};
 use std::sync::mpsc::{Receiver, Sender};
+use serde_wasm_bindgen::{from_value as decode_from_wasm, to_value as encode_to_wasm};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum LspRequest {
@@ -148,10 +150,35 @@ pub async fn process_command(
         LspRequest::ContractOpened(contract_location) => {
             // The only reason why we're waiting for this kind of events, is building our initial state
             // if the system is initialized, move on.
-            let manifest_location = match contract_location.get_project_manifest_location() {
-                Ok(manifest_location) => manifest_location,
-                _ => {
-                    return Ok(LspResponse::default());
+
+            let manifest_location = match file_accessor {
+                None => match contract_location.get_project_manifest_location() {
+                    Ok(manifest_location) => manifest_location,
+                    _ => {
+                        return Ok(LspResponse::default());
+                    }
+                },
+                Some(file_accessor) => {
+                    let mut manifest_location = None;      
+                    let mut parent_location = contract_location.get_parent_location();
+                    while let Ok(ref parent) = parent_location {
+                        let mut candidate = parent.clone();
+                        let _ = candidate.append_path("Clarinet.toml");
+
+                        // #[cfg(feature = "wasm")]
+                        web_sys::console::log_1(&encode_to_wasm(&candidate.to_string()).unwrap());
+                        if let Ok((location, _)) = file_accessor.read_manifest_content(candidate).await {
+                            manifest_location = Some(location);
+                            break;
+                        }
+                        parent_location = parent.get_parent_location();
+                    }
+                    match manifest_location {
+                        Some(location) => location,
+                        _ => {
+                            return Ok(LspResponse::default());
+                        }
+                    }
                 }
             };
 
