@@ -524,7 +524,7 @@ jobs:
 
       - name: Build - Cargo
         working-directory: vendor/orchestra-event-observer
-        run: cargo build --release --features=telemetry --locked --target ${{ matrix.target }}
+        run: cargo build --release --locked --target ${{ matrix.target }}
 
       # Don't compress for Windows because winget can't yet unzip files
       - name: Compress cargo artifact (Linux)
