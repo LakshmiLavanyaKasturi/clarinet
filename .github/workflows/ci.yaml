@@ -284,12 +284,12 @@ jobs:
 
       - name: Unit Tests - Cargo
         # can't easily run mac-arm64 tests in GH without native runners for that arch
-        if: matrix.target != 'aarch64-apple-darwin''
+        if: matrix.target != 'aarch64-apple-darwin'
         run: cargo test --release --locked --target ${{ matrix.target }}
 
       - name: Functional Tests (Linux)
         # can't easily run mac-arm64 tests in GH without native runners for that arch
-        if: matrix.os != 'windows-latest' && matrix.target != 'aarch64-apple-darwin''
+        if: matrix.os != 'windows-latest' && matrix.target != 'aarch64-apple-darwin'
         run: |
           for testdir in $(ls examples); do
             ./target/${{ matrix.target }}/release/clarinet test --manifest-path examples/${testdir}/Clarinet.toml
@@ -509,7 +509,7 @@ jobs:
 
       - name: Unit Tests - Cargo
         # can't easily run mac-arm64 tests in GH without native runners for that arch
-        if: matrix.target != 'aarch64-apple-darwin''
+        if: matrix.target != 'aarch64-apple-darwin'
         run: cargo test --release --locked --target ${{ matrix.target }}
 
       # Cleans the `./target` dir after the build such that only dependencies are cached on CI
