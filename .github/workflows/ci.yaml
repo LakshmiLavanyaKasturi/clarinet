@@ -575,9 +575,9 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/main')
     needs:
       - audit
-      - dist
+      # - dist
       - test
-      - build
+      # - build
     steps:
       - name: Extract tag
         run: echo "GITHUB_REF_SHORT=${GITHUB_REF##*/}" >> $GITHUB_ENV
