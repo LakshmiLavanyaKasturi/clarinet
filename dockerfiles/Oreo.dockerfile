@@ -1,33 +1,11 @@
-FROM rust:stretch as build
+FROM debian:bullseye-slim
 
-WORKDIR /src
-
-RUN apt update && apt install -y ca-certificates pkg-config libssl-dev
-
-RUN rustup update 1.59.0 && rustup default 1.59.0
-
-COPY ./vendor/orchestra-types-rs /src/components/orchestra-types-rs
-
-COPY ./vendor/orchestra-event-observer /src/components/orchestra-event-observer
-
-COPY ./vendor/stacks-rpc-client /src/components/stacks-rpc-client
-
-COPY ./components/clarity-repl /src/components/clarity-repl
-
-WORKDIR /src/components/orchestra-event-observer
-
-RUN mkdir /out
-
-RUN cargo build --release
-
-RUN cp target/release/orchestra-event-observer /out
-
-FROM debian:stretch-slim
+COPY orchestra-event-observer /bin/orchestra-event-observer
 
 RUN apt update && apt install -y libssl-dev
 
-COPY --from=build /out/ /bin/
-
 WORKDIR /workspace
+
+ENV CLARINET_MODE_CI=1
 
 ENTRYPOINT ["orchestra-event-observer"]
