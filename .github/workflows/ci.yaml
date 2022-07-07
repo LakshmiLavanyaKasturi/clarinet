@@ -523,20 +523,21 @@ jobs:
           echo "PRE_GYP_TARGET_NAME=${{ matrix.platform }}-${{ matrix.architecture }}-unknown" >> $GITHUB_ENV
 
       - name: Build - Cargo
+        working-directory: vendor/orchestra-event-observer
         run: cargo build --release --features=telemetry --locked --target ${{ matrix.target }}
 
       # Don't compress for Windows because winget can't yet unzip files
       - name: Compress cargo artifact (Linux)
         if: matrix.os != 'windows-latest'
-        run: tar -C target/${{ matrix.target }}/release -zcvf clarinet-${{ env.SHORT_TARGET_NAME }}.tar.gz clarinet
+        run: tar -C target/${{ matrix.target }}/release -zcvf oreo-${{ env.SHORT_TARGET_NAME }}.tar.gz oreo
 
       # Separate uploads to prevent paths from being preserved
       - name: Upload cargo artifacts (Linux)
         if: matrix.os != 'windows-latest'
         uses: actions/upload-artifact@v2
         with:
-          name: clarinet-${{ env.SHORT_TARGET_NAME }}
-          path: clarinet-${{ env.SHORT_TARGET_NAME }}.tar.gz
+          name: oreo-${{ env.SHORT_TARGET_NAME }}
+          path: oreo-${{ env.SHORT_TARGET_NAME }}.tar.gz
 
       - name: Unit Tests - Cargo
         # can't easily run mac-arm64 tests in GH without native runners for that arch
@@ -545,6 +546,7 @@ jobs:
 
       # Cleans the `./target` dir after the build such that only dependencies are cached on CI
       - name: Prepare cache
+        working-directory: vendor/orchestra-event-observer
         run: cargo xtask pre-cache
 
   docker_images:
