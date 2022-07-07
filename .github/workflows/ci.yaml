@@ -355,6 +355,17 @@ jobs:
             architecture: arm64
 
     steps:
+      - name: Configure git to use LF (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
       - name: Install and cache Node
         if: matrix.target != 'x86_64-unknown-linux-musl'
         uses: actions/setup-node@v2
