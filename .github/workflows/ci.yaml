@@ -441,7 +441,7 @@ jobs:
           tag: ${{ github.ref }}
 
   dist_oreo:
-    name: Build Clarinet Distributions
+    name: Build Oreo Distributions
     runs-on: ${{ matrix.os }}
     needs: pre_run
 
