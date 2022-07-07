@@ -246,6 +246,11 @@ impl FileLocation {
         let mut parent_location = self.clone();
         match parent_location.borrow_mut() {
             FileLocation::FileSystem { path } => {
+                let mut parent = path.clone();
+                parent.pop();
+                if parent.to_str() == path.to_str() {
+                    return Err(String::from("reached root"));
+                }
                 path.pop();
             }
             FileLocation::Url { url } => {
