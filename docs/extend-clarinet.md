@@ -1,6 +1,5 @@
 ---
 title: Extend Clarinet
-slug: clarinet
 ---
 
 Extend Clarinet to integrate clarity contracts with your own tooling and workflow.

@@ -1,6 +1,5 @@
 ---
 title: Check Contracts
-slug: clarinet
 ---
 
 Clarinet provides syntax and semantics checkers for Clarity. You can verify if the Clarity code in your project is valid with the command listed below.

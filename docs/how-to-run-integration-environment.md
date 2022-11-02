@@ -1,6 +1,5 @@
 ---
 title: "Run a local Integration Environment"
-slug: clarinet
 ---
 
 Once you have reached a point where your Clarity smart contract is functional, you may want to develop a web frontend against your contract. This can be challenging, as the contract must be deployed to a live blockchain to fully

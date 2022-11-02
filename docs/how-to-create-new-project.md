@@ -1,6 +1,5 @@
 ---
 title: Create new Project
-slug: clarinet
 ---
 
 Once you have installed Clarinet, you may then use Clarinet to create a new project. To create a new project, enter the command shown below.

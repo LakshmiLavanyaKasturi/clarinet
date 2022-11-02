@@ -1,7 +1,6 @@
 ---
 # The default id is the same as the one being defined below. so not needed
 title: Troubleshooting
-slug: clarinet
 ---
 
 This page provides answers to some common issues you may encounter when using Clarinet. Updates will be made to this page on a regular basis as we receive feedback and comments from our developer community.

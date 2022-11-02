@@ -1,7 +1,6 @@
 ---
 # The default id is the same as the one being defined below. so not needed
 title: Getting Started
-slug: clarinet
 ---
 
 Follow this guide to install and build Clarinet. 

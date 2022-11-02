@@ -1,6 +1,5 @@
 ---
 title: Debug Contract
-slug: clarinet
 ---
 
 ## VS Code Debugger
