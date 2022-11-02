@@ -1,6 +1,5 @@
 ---
 title: FAQ's
-slug: clairnet
 ---
 
 #### **How to use Command line tools?**
