@@ -38,4 +38,4 @@ You can resolve the issue by creating a symlink of the docker.sock file. To do t
 Now, run the command `clarinet integrate` to see the Devnet up and running.
 
 
-Test for remote content
+Test for remote content `<<i am reamoved now>>`
