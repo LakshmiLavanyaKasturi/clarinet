@@ -51,7 +51,7 @@ With these transaction primitives, you can then:
 
 ## References
 
-For a more detailed discussion, visit the [How To Guide for deployment plans](./how-to-use-deployment-plans.md) section of our documentation for deployment plans, or please see the following resources:
+For a more detailed discussion, visit the [How To Guide for deployment plans](../how-to-guides/how-to-use-deployment-plans.md) section of our documentation for deployment plans, or please see the following resources:
 
 - [Meet 4 New Features in Clarinet](https://www.hiro.so/blog/meet-4-new-features-in-clarinet) blog post
 <<<<<<< HEAD
