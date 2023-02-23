@@ -4,7 +4,7 @@ title: Deploy Clarinet with Subnets
 
 Clarinet may facilitate experimentation with [subnets](https://www.youtube.com/watch?v=PFPwuVCGGuI). You can follow this article to enable subnet node on your devnet environment.
 
-*Topic*:
+*Topics covered in this guide*:
 
 * [Enable subnet node](#subnet)
 * [Spin up your subnet node](#spin-subnet-node)

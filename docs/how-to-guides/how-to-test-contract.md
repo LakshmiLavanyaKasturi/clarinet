@@ -4,7 +4,7 @@ title: Test Contract
 
 Clarinet supports automatic testing, where your blockchain application requirements can be converted to test cases. Clarinet comes with a testing harness based on Deno that applies the unit tests you write in TypeScript to your smart contracts.
 
-*Topics*:
+*Topics covered in this guide*:
 
 * [Instructions to write unit tests](#clarity-contracts-and-unit-tests)
 * [Increase test coverage](#measure-and-increase-code-coverage)

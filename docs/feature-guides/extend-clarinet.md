@@ -5,7 +5,7 @@ title: Extend Clarinet
 Extend Clarinet to integrate clarity contracts with your own tooling and workflow.
 
 
-*Topics*:
+*Topics covered in this guide*:
 
 * [Use clarinet run command](#clarinet-run)
 * [Standalone plugin deployment](#standalone-plugin)

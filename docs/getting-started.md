@@ -7,7 +7,7 @@ title: Getting Started
 
 Hiro has developed Clarinet to be environment-agnostic. Follow this guide to install and build Clarinet. 
 
-*Topics*:
+*Topics covered in this guide*:
 
 * [Install Clarinet](#install-clarinet)
 * [Build Clarinet from source](#build-clarinet)
