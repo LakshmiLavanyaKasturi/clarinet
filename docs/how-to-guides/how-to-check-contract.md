@@ -6,7 +6,9 @@ Clarinet provides syntax and semantics checkers for Clarity.
 
 *Topic*:
 
-- [x] Check your contracts
+* [Check your contracts](#contracts)
+
+## Contracts
 
 You can verify if the Clarity code in your project is valid with the command listed below.
 

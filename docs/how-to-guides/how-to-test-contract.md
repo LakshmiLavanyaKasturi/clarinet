@@ -6,21 +6,12 @@ Clarinet supports automatic testing, where your blockchain application requireme
 
 *Topics*:
 
-<<<<<<< HEAD
-- [x] Instructions to write unit tests
-- [x] Increase test coverage
-- [x] Clarinet usage to optimize costs
-- [x] Clarity REPL console
-- [x] Interact with contracts on mainnet
-- [x] Clarinet usage in Github actions
-=======
-- [x]  Instructions to write unit tests
-- [x] About lcov report to increase test coverage
-- [x] Clarinet usage to optimize costs
-- [x] Clarity REPL console
-- [x]  Interact with contracts on mainnet
-- [x]  Clarinet usage in Github actions
->>>>>>> 4ef3ddbb (Resolved merge conflict)
+* [Instructions to write unit tests](#clarity-contracts-and-unit-tests)
+* [Increase test coverage](#measure-and-increase-code-coverage)
+* [Clarinet usage to optimize costs](#cost-optimization)
+* [Clarity REPL console](#load-contracts-in-a-console)
+* [Interact with contracts on mainnet](#interacting-with-contracts-deployed-on-mainnet)
+* [Clarinet usage in Github actions](#use-clarinet-in-your-ci-workflow-as-a-github-action)
 
 ## Clarity contracts and unit tests
 
