@@ -25,6 +25,7 @@ use clarinet_files::{
     get_manifest_location, FileLocation, ProjectManifest, ProjectManifestFile, RequirementConfig,
 };
 use clarity_repl::analysis::call_checker::ContractAnalysis;
+use clarity_repl::analysis::coverage::parse_coverage_str;
 use clarity_repl::clarity::vm::analysis::AnalysisDatabase;
 use clarity_repl::clarity::vm::costs::LimitedCostTracker;
 use clarity_repl::clarity::vm::diagnostic::{Diagnostic, Level};
@@ -38,8 +39,10 @@ use stacks_network::{self, DevnetOrchestrator};
 use std::collections::HashMap;
 use std::fs::{self, File};
 use std::io::prelude::*;
+use std::path::PathBuf;
 use std::{env, process};
 
+use clap::builder::ValueParser;
 use clap::{IntoApp, Parser, Subcommand};
 use clap_generate::{Generator, Shell};
 use toml;
@@ -395,9 +398,13 @@ struct Integrate {
 
 #[derive(Parser, PartialEq, Clone, Debug)]
 struct Test {
-    /// Generate coverage file (coverage.lcov)
-    #[clap(long = "coverage")]
-    pub coverage: bool,
+    /// Generate coverage file, and optionally provide name of generated file (defaults to "coverage.lcov")
+    #[clap(
+        long = "coverage",
+        default_missing_value("coverage.lcov"),
+        value_parser(ValueParser::new(parse_coverage_str))
+    )]
+    pub coverage: Option<PathBuf>,
     /// Generate costs report
     #[clap(long = "costs")]
     pub costs_report: bool,
@@ -459,13 +466,18 @@ struct Run {
     /// Allow access to wallets
     #[clap(long = "allow-wallets")]
     pub allow_wallets: bool,
-    /// Allow write access to disk
+    /// Allow write access to project directory
     #[clap(long = "allow-write")]
     pub allow_disk_write: bool,
-    /// Allow read access to disk
+    /// Allow read access to project directory
     #[clap(long = "allow-read")]
-    #[allow(dead_code)]
     pub allow_disk_read: bool,
+    /// Allows running a specified list of subprocesses. Use the flag multiple times to allow multiple subprocesses
+    #[clap(long = "allow-run")]
+    pub allow_run: Option<Vec<String>>,
+    /// Allows access to a specified list of environment variables. Use the flag multiple times to allow access to multiple variables
+    #[clap(long = "allow-env")]
+    pub allow_env: Option<Vec<String>>,
     /// If specified, use this deployment file
     #[clap(long = "deployment-plan-path", short = 'p')]
     pub deployment_plan_path: Option<String>,
@@ -1215,6 +1227,9 @@ pub fn main() {
                 cmd.watch,
                 true,
                 false,
+                false,
+                None,
+                None,
                 &manifest,
                 cache,
                 deployment_plan_path,
@@ -1255,11 +1270,14 @@ pub fn main() {
             let cache_location = manifest.project.cache_location.clone();
             let _ = run_scripts(
                 vec![cmd.script],
-                false,
+                None,
                 false,
                 false,
                 cmd.allow_wallets,
+                cmd.allow_disk_read,
                 cmd.allow_disk_write,
+                cmd.allow_run,
+                cmd.allow_env,
                 &manifest,
                 cache,
                 cmd.deployment_plan_path,

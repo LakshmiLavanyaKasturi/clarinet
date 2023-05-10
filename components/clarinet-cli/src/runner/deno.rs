@@ -55,11 +55,14 @@ use tokio::sync::mpsc::unbounded_channel;
 
 pub async fn do_run_scripts(
     include: Vec<String>,
-    generate_coverage: bool,
+    coverage_report: Option<PathBuf>,
     display_costs_report: bool,
     watch: bool,
     allow_wallets: bool,
-    _allow_disk_write: bool,
+    allow_disk_read: bool,
+    allow_disk_write: bool,
+    allow_run: Option<Vec<String>>,
+    allow_env: Option<Vec<String>>,
     manifest: &ProjectManifest,
     cache: DeploymentCache,
     _deployment_plan_path: Option<String>,
@@ -95,6 +98,15 @@ pub async fn do_run_scripts(
     } else {
         None
     };
+
+    let allow_read_path = match allow_disk_read {
+        true => Some(vec![cwd.clone()]),
+        false => None,
+    };
+    let allow_write_path = match allow_disk_write {
+        true => Some(vec![cwd.clone()]),
+        false => None,
+    };
     let test_flags = TestFlags {
         ignore: vec![],    // todo(lgalabru)
         trace_ops: true,   // todo(lgalabru)
@@ -112,7 +124,7 @@ pub async fn do_run_scripts(
         argv: vec![],
         subcommand: DenoSubcommand::Test(test_flags.clone()),
         allow_all: false,
-        allow_env: None,
+        allow_env,
         allow_hrtime: false,
         allow_net: if allow_net {
             Some(vec!["deno.land".into()])
@@ -123,9 +135,9 @@ pub async fn do_run_scripts(
         watch: watched,
         import_map_path: import_map,
         allow_ffi: None,
-        allow_read: None,                     // todo(lgalabru)
-        allow_run: None,                      // todo(lgalabru)
-        allow_write: None,                    // todo(lgalabru)
+        allow_read: allow_read_path,
+        allow_write: allow_write_path,
+        allow_run,
         cache_blocklist: vec![],              // todo(lgalabru)
         cached_only: false,                   // todo(lgalabru)
         ignore: vec![],                       // todo(lgalabru)
@@ -198,7 +210,7 @@ pub async fn do_run_scripts(
             allow_wallets,
             Some(cache),
             display_costs_report,
-            generate_coverage,
+            coverage_report,
             stacks_chainhooks,
             mine_block_delay,
             chainhook_tx.clone(),
@@ -798,7 +810,7 @@ pub async fn run_tests(
     allow_wallets: bool,
     deployment_cache: Option<DeploymentCache>,
     display_costs_report: bool,
-    generate_coverage: bool,
+    coverage_report: Option<PathBuf>,
     stacks_chainhooks: Vec<StacksChainhookSpecification>,
     mine_block_delay: u16,
     chainhook_tx: Option<Sender<ChainhookEvent>>,
@@ -857,7 +869,7 @@ pub async fn run_tests(
     }
 
     if let Some(ref cache) = deployment_cache {
-        if generate_coverage {
+        if let Some(filename) = coverage_report {
             let mut coverage_reporter = CoverageReporter::new();
             for (contract_id, analysis_artifacts) in cache.contracts_artifacts.iter() {
                 coverage_reporter
@@ -874,7 +886,7 @@ pub async fn run_tests(
                 coverage_reporter.reports.append(&mut coverage_reports);
             }
             coverage_reporter
-                .write_lcov_file("coverage.lcov")
+                .write_lcov_file(&filename)
                 .map_err(|e| (AnyError::from(e), 0))?;
         }
     }
