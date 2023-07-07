@@ -3,9 +3,9 @@
 title: Getting Started
 ---
 
-# Redeploy Attempt 1 Testing
+# Redeploy Attempt 1 Testing attempt 2
 
-# Redeploy Attempt 2 Testing
+## Redeploy Attempt 2 Testing
 
 ## Install Clarinet
 
