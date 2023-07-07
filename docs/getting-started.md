@@ -3,6 +3,8 @@
 title: Getting Started
 ---
 
+# Redeploy Attempt 1 Testing
+
 ## Install Clarinet
 
 Hiro has developed Clarinet to be environment-agnostic. Follow this guide to install and build Clarinet. 
